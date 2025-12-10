@@ -2,13 +2,6 @@ import { Action, ActionPanel, Icon, Image, List, showToast, Toast, Clipboard, sh
 import { useEffect, useState } from "react";
 import { getBots, get2FAToken, Bot } from "./utils/api";
 
-interface Bot2FAState {
-  botName: string;
-  token?: string;
-  error?: string;
-  loading: boolean;
-}
-
 export default function Command() {
   const [bots, setBots] = useState<Bot[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +12,6 @@ export default function Command() {
         const botsData = await getBots();
         const botList = Object.values(botsData);
         setBots(botList);
-
 
         // Fetch 2FA for all bots that might have it (mock check or just try all)
         // Usually we don't spam 2FA requests unless requested, but for "Copy 2FA" command, we probably want to see them.

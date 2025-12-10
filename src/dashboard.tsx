@@ -50,9 +50,9 @@ export default function Command() {
             icon={
               bot.AvatarHash
                 ? {
-                  source: `https://avatars.steamstatic.com/${bot.AvatarHash}_full.jpg`,
-                  mask: Image.Mask.Circle,
-                }
+                    source: `https://avatars.steamstatic.com/${bot.AvatarHash}_full.jpg`,
+                    mask: Image.Mask.Circle,
+                  }
                 : bot.IsConnectedAndLoggedOn
                   ? { source: Icon.CheckCircle, tintColor: Color.Green }
                   : { source: Icon.XMarkCircle, tintColor: Color.Red }

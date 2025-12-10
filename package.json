@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "archisteamfarm",
   "title": "ArchiSteamFarm",
-  "description": "Interact with your locally hosted ASF instance via raycast!",
+  "description": "Interact with your locally hosted ASF instance via Raycast!",
   "icon": "extension-icon.png",
   "license": "MIT",
   "commands": [
@@ -16,8 +16,7 @@
       "name": "copy-2fa",
       "title": "Copy 2FA",
       "description": "Copy a 2FA code from one of your ASF bots.",
-      "mode": "view",
-      "subtitle": ""
+      "mode": "view"
     }
   ],
   "preferences": [
