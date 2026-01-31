@@ -5,10 +5,6 @@
 
 Interact with your locally hosted [ArchiSteamFarm (ASF)](https://github.com/JustArchiNET/ArchiSteamFarm) instance directly from Raycast! Control your bots, manage farming, and copy 2FA tokens without leaving your workflow.
 
-## 📸 Screenshots
-
-*Coming soon!*
-
 ## ✨ Features
 
 ### Dashboard
