@@ -48,6 +48,12 @@ export interface Preferences {
   ipcPassword?: string;
 }
 
+export interface TwoFactorTokenResponse {
+  Result?: string;
+  Success: boolean;
+  Message?: string;
+}
+
 export function getASFUrl(): string {
   const prefs = getPreferenceValues<Preferences>();
   let url = prefs.asfUrl || "http://localhost:1242";
@@ -81,7 +87,7 @@ async function asfFetch<T>(endpoint: string, options?: RequestInit): Promise<Gen
     });
 
     if (!response.ok) {
-      // ASF sometimes returns error messages in the body even with non-200 status
+      // ASF sometimes returns error messages in body even with non-200 status
       const text = await response.text();
       try {
         const json = JSON.parse(text) as GenericResponse<T>;
@@ -120,10 +126,11 @@ export async function getOneBot(botName: string): Promise<Bot> {
 }
 
 export async function sendCommand(command: string): Promise<string> {
-  // Use the /Api/Command endpoint
+  // Use of CommandRequest interface as documented in ASF API
+  const requestBody: CommandRequest = { Command: command };
   const response = await asfFetch<string>("/Command", {
     method: "POST",
-    body: JSON.stringify({ Command: command }),
+    body: JSON.stringify(requestBody),
   });
 
   if (!response.Success) {
@@ -134,11 +141,11 @@ export async function sendCommand(command: string): Promise<string> {
 
 export async function get2FAToken(botName: string): Promise<string | null> {
   // /Api/Bot/{botNames}/TwoFactorAuthentication/Token
-  const response = await asfFetch<Record<string, { Result?: string; Success: boolean; Message?: string }>>(
+  const response = await asfFetch<Record<string, TwoFactorTokenResponse>>(
     `/Bot/${botName}/TwoFactorAuthentication/Token`,
   );
   if (!response.Success || !response.Result || !response.Result[botName]) {
-    return null; // Or throw error
+    return null;
   }
   const botResult = response.Result[botName];
   if (!botResult.Success || !botResult.Result) {
@@ -147,7 +154,7 @@ export async function get2FAToken(botName: string): Promise<string | null> {
   return botResult.Result;
 }
 
-export async function pauseBot(botName: string, permanent: boolean, resumeInSeconds: number = 0) {
+export async function pauseBot(botName: string, permanent: boolean, resumeInSeconds: number = 0): Promise<GenericResponse<unknown>> {
   const response = await asfFetch(`/Bot/${botName}/Pause`, {
     method: "POST",
     body: JSON.stringify({ Permanent: permanent, ResumeInSeconds: resumeInSeconds }),
@@ -155,19 +162,19 @@ export async function pauseBot(botName: string, permanent: boolean, resumeInSeco
   return response;
 }
 
-export async function resumeBot(botName: string) {
+export async function resumeBot(botName: string): Promise<GenericResponse<unknown>> {
   const response = await asfFetch(`/Bot/${botName}/Resume`, {
     method: "POST",
   });
   return response;
 }
 
-export async function startBot(botName: string) {
+export async function startBot(botName: string): Promise<GenericResponse<unknown>> {
   const response = await asfFetch(`/Bot/${botName}/Start`, { method: "POST" });
   return response;
 }
 
-export async function stopBot(botName: string) {
+export async function stopBot(botName: string): Promise<GenericResponse<unknown>> {
   const response = await asfFetch(`/Bot/${botName}/Stop`, { method: "POST" });
   return response;
 }
