@@ -17,6 +17,24 @@
       "title": "Copy 2FA",
       "description": "Copy a 2FA code from one of your ASF bots.",
       "mode": "view"
+    },
+    {
+      "name": "farming-status",
+      "title": "Farming Status",
+      "description": "View real-time card farming status and progress.",
+      "mode": "view"
+    },
+    {
+      "name": "card-drops",
+      "title": "Card Drops",
+      "description": "View card drops across all bots.",
+      "mode": "view"
+    },
+    {
+      "name": "bot-actions",
+      "title": "Bot Actions",
+      "description": "Quick actions for bot management.",
+      "mode": "view"
     }
   ],
   "preferences": [
